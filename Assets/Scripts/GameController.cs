@@ -122,6 +122,7 @@ public class GameController : MonoBehaviour
         {
             card.cardType = CardType.JumpHigh;
         }
+        card.LoadAsset();
         Debug.Log("New card created: " + card.cardType + ", " + card.cardPower);
         result.name = string.Format("card_{0}_{1}", card.cardType, card.cardPower);
         return result;

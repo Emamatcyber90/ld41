@@ -1,0 +1,411 @@
+fileFormatVersion: 2
+guid: ef0bff8f9d5c34c46822cda45de0f527
+timeCreated: 1524301382
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: cards_0
+    21300002: cards_1
+    21300004: cards_2
+    21300006: cards_3
+    21300008: cards_4
+    21300010: cards_5
+  externalObjects: {}
+  serializedVersion: 4
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: -1
+    aniso: -1
+    mipBias: -1
+    wrapU: 1
+    wrapV: 1
+    wrapW: -1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: cards_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 150
+        width: 100
+        height: 150
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -49, y: 75}
+        - {x: -50, y: 74}
+        - {x: -50, y: -74}
+        - {x: -49, y: -75}
+        - {x: 49, y: -75}
+        - {x: 50, y: -74}
+        - {x: 50, y: 74}
+        - {x: 49, y: 75}
+      - - {x: -40, y: -17}
+        - {x: 40, y: -17}
+        - {x: 40, y: -65}
+        - {x: -40, y: -65}
+      - - {x: -34, y: -21}
+        - {x: -36, y: -23}
+        - {x: -36, y: -50}
+        - {x: -32, y: -57}
+        - {x: -13, y: -57}
+        - {x: -2, y: -45}
+        - {x: -2, y: -28}
+        - {x: -14, y: -21}
+      - - {x: 9, y: -22}
+        - {x: 0, y: -27}
+        - {x: 0, y: -50}
+        - {x: 3, y: -57}
+        - {x: 21, y: -57}
+        - {x: 32, y: -45}
+        - {x: 32, y: -36}
+        - {x: 21, y: -22}
+      - - {x: -40, y: 65}
+        - {x: 40, y: 65}
+        - {x: 40, y: -9}
+        - {x: -40, y: -9}
+      - - {x: 40, y: 19}
+        - {x: 40, y: 46}
+        - {x: 24, y: 60}
+        - {x: -33, y: 60}
+        - {x: -39, y: 55}
+        - {x: -39, y: 14}
+        - {x: -21, y: -1}
+        - {x: -14, y: -1}
+        - {x: -11, y: 2}
+        - {x: 10, y: -1}
+        - {x: 26, y: -1}
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: cards_1
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 150
+        width: 100
+        height: 150
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -49, y: 75}
+        - {x: -50, y: 74}
+        - {x: -50, y: -74}
+        - {x: -49, y: -75}
+        - {x: 49, y: -75}
+        - {x: 50, y: -74}
+        - {x: 50, y: 74}
+        - {x: 49, y: 75}
+      - - {x: -40, y: -17}
+        - {x: 40, y: -17}
+        - {x: 40, y: -65}
+        - {x: -40, y: -65}
+      - - {x: -11, y: -21}
+        - {x: -20, y: -28}
+        - {x: -20, y: -47}
+        - {x: -10, y: -61}
+        - {x: 6, y: -61}
+        - {x: 15, y: -55}
+        - {x: 15, y: -26}
+        - {x: 12, y: -21}
+      - - {x: -40, y: 65}
+        - {x: 40, y: 65}
+        - {x: 40, y: -9}
+        - {x: -40, y: -9}
+      - - {x: 1, y: 65}
+        - {x: -5, y: 65}
+        - {x: -8, y: 64}
+        - {x: -24, y: 35}
+        - {x: -24, y: 27}
+        - {x: -7, y: 5}
+        - {x: 2, y: 5}
+        - {x: 17, y: 29}
+        - {x: 18, y: 31}
+        - {x: 18, y: 40}
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: cards_2
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 150
+        width: 100
+        height: 150
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -49, y: 75}
+        - {x: -50, y: 74}
+        - {x: -50, y: -74}
+        - {x: -49, y: -75}
+        - {x: 49, y: -75}
+        - {x: 50, y: -74}
+        - {x: 50, y: 74}
+        - {x: 49, y: 75}
+      - - {x: -40, y: -17}
+        - {x: 40, y: -17}
+        - {x: 40, y: -65}
+        - {x: -40, y: -65}
+      - - {x: 26, y: -24}
+        - {x: -32, y: -24}
+        - {x: -32, y: -47}
+        - {x: 2, y: -61}
+        - {x: 11, y: -61}
+        - {x: 33, y: -48}
+        - {x: 34, y: -45}
+        - {x: 34, y: -36}
+      - - {x: -40, y: 65}
+        - {x: -6, y: 66}
+        - {x: -8, y: 67}
+        - {x: -13, y: 62}
+        - {x: -15, y: 51}
+        - {x: -24, y: 26}
+        - {x: -28, y: -7}
+        - {x: -14, y: -7}
+        - {x: -10, y: -10}
+        - {x: -6, y: -10}
+        - {x: -2, y: -6}
+        - {x: 1, y: -1}
+        - {x: 1, y: -8}
+        - {x: 4, y: -11}
+        - {x: 10, y: -11}
+        - {x: 24, y: 3}
+        - {x: 26, y: 13}
+        - {x: 33, y: 44}
+        - {x: 21, y: 45}
+        - {x: 15, y: 62}
+        - {x: 11, y: 66}
+        - {x: 6, y: 66}
+        - {x: 40, y: 65}
+        - {x: 40, y: -9}
+        - {x: -40, y: -9}
+      - - {x: -3, y: 56}
+        - {x: -2, y: 55}
+        - {x: 2, y: 55}
+        - {x: 3, y: 56}
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: cards_3
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 100
+        height: 150
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -49, y: 75}
+        - {x: -50, y: 74}
+        - {x: -50, y: -74}
+        - {x: -49, y: -75}
+        - {x: 49, y: -75}
+        - {x: 50, y: -74}
+        - {x: 50, y: 74}
+        - {x: 49, y: 75}
+      - - {x: -40, y: -17}
+        - {x: 40, y: -17}
+        - {x: 40, y: -65}
+        - {x: -40, y: -65}
+      - - {x: -11, y: -23}
+        - {x: -33, y: -36}
+        - {x: -34, y: -39}
+        - {x: -34, y: -48}
+        - {x: -26, y: -60}
+        - {x: 32, y: -60}
+        - {x: 32, y: -36}
+        - {x: 14, y: -23}
+      - - {x: -40, y: 65}
+        - {x: -17, y: 50}
+        - {x: -12, y: 48}
+        - {x: -15, y: 49}
+        - {x: -26, y: 49}
+        - {x: -30, y: 47}
+        - {x: -35, y: 43}
+        - {x: -38, y: 33}
+        - {x: -27, y: 28}
+        - {x: -33, y: 9}
+        - {x: -33, y: 1}
+        - {x: -27, y: -6}
+        - {x: -26, y: -6}
+        - {x: -21, y: -11}
+        - {x: -20, y: -10}
+        - {x: -40, y: -9}
+      - - {x: -11, y: -5}
+        - {x: -15, y: -1}
+        - {x: -21, y: 4}
+        - {x: -19, y: 7}
+        - {x: -18, y: 7}
+        - {x: -11, y: 14}
+        - {x: -11, y: 12}
+        - {x: -10, y: 9}
+        - {x: -6, y: 3}
+        - {x: 2, y: -7}
+        - {x: 18, y: -7}
+        - {x: 32, y: 17}
+        - {x: 27, y: 22}
+        - {x: 38, y: 63}
+        - {x: 40, y: -9}
+        - {x: -11, y: -9}
+      - - {x: -6, y: 57}
+        - {x: -3, y: 57}
+        - {x: -4, y: 57}
+        - {x: -5, y: 58}
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: cards_4
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 0
+        width: 100
+        height: 150
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -49, y: 75}
+        - {x: -50, y: 74}
+        - {x: -50, y: -74}
+        - {x: -49, y: -75}
+        - {x: 49, y: -75}
+        - {x: 50, y: -74}
+        - {x: 50, y: 74}
+        - {x: 49, y: 75}
+      - - {x: -40, y: -17}
+        - {x: 40, y: -17}
+        - {x: 40, y: -65}
+        - {x: -40, y: -65}
+      - - {x: -40, y: 65}
+        - {x: 40, y: 65}
+        - {x: 40, y: -9}
+        - {x: -40, y: -9}
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: cards_5
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 0
+        width: 100
+        height: 150
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -49, y: 75}
+        - {x: -50, y: 74}
+        - {x: -50, y: -74}
+        - {x: -49, y: -75}
+        - {x: 49, y: -75}
+        - {x: 50, y: -74}
+        - {x: 50, y: 74}
+        - {x: 49, y: 75}
+      - - {x: -40, y: -17}
+        - {x: 40, y: -17}
+        - {x: 40, y: -65}
+        - {x: -40, y: -65}
+      - - {x: -40, y: 65}
+        - {x: 40, y: 65}
+        - {x: 40, y: -9}
+        - {x: -40, y: -9}
+      physicsShape: []
+      tessellationDetail: 0
+    outline: []
+    physicsShape: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

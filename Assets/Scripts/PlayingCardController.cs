@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// Power cards have:
@@ -15,6 +16,7 @@ public enum CardType
 
 public class PlayingCardController : MonoBehaviour
 {
+    public Sprite[] mReplacementSprites;
     public CardType cardType;
     public int cardPower;
 
@@ -38,6 +40,26 @@ public class PlayingCardController : MonoBehaviour
     {
         mPlayer = GameObject.Find("Player").GetComponent<PlayerController>();
         mGameController = GameObject.Find("GameController").GetComponent<GameController>();
+    }
+
+    public void LoadAsset()
+    {
+        Image img = GetComponent<Image>();
+        switch (cardType)
+        {
+            case CardType.JumpHigh:
+                img.sprite = mReplacementSprites[0];
+                break;
+            case CardType.JumpLow:
+                img.sprite = mReplacementSprites[1];
+                break;
+            case CardType.RunRight:
+                img.sprite = mReplacementSprites[2];
+                break;
+            case CardType.RunLeft:
+                img.sprite = mReplacementSprites[3];
+                break;
+        }
     }
 
     // Update is called once per frame
