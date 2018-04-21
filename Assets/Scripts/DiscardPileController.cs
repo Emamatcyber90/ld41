@@ -4,6 +4,15 @@ using UnityEngine;
 
 public class DiscardPileController : MonoBehaviour
 {
+    public Vector3 Center
+    {
+        get
+        {
+            RectTransform rT = GetComponent<RectTransform>();
+            return transform.position + new Vector3(rT.rect.width * 0.5f, rT.rect.height * 0.5f, 0);
+        }
+    }
+
     private Stack<GameObject> mDiscardPile;
 
     // Use this for initialization
@@ -19,5 +28,9 @@ public class DiscardPileController : MonoBehaviour
 
     public void AddToDiscard(GameObject card)
     {
+        // Tween it over!
+        mDiscardPile.Push(card);
+        Vector3 targetPosition = Center + Vector3.down * 2.0f * mDiscardPile.Count;
+        iTween.MoveTo(card, iTween.Hash("position", targetPosition, "time", 0.25f));
     }
 }

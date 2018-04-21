@@ -77,6 +77,28 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void ActOnCard(PlayingCardController card)
+    {
+        Debug.Log("Player acting on card: " + card.gameObject.name);
+        switch (card.cardType)
+        {
+            case CardType.RunLeft:
+                ActionRunLeft(card.cardPower);
+                break;
+            case CardType.RunRight:
+                ActionRunRight(card.cardPower);
+                break;
+            case CardType.JumpLow:
+                ActionJump();
+                break;
+            case CardType.JumpHigh:
+                ActionJump();
+                break;
+            case CardType.Block:
+                break;
+        }
+    }
+
     #region User Actions
 
     public void ActionJump()

@@ -18,6 +18,9 @@ public class PlayingCardController : MonoBehaviour
     public CardType cardType;
     public int cardPower;
 
+    private PlayerController mPlayer;
+    private GameController mGameController;
+
     #region Drag Properties
 
     private Vector3 mDragOffset;
@@ -33,6 +36,8 @@ public class PlayingCardController : MonoBehaviour
     // Use this for initialization
     private void Start()
     {
+        mPlayer = GameObject.Find("Player").GetComponent<PlayerController>();
+        mGameController = GameObject.Find("GameController").GetComponent<GameController>();
     }
 
     // Update is called once per frame
@@ -77,7 +82,7 @@ public class PlayingCardController : MonoBehaviour
 
     private void GoToDropTarget()
     {
-        // First clear the old one
+        // First clear the old CSC if it is one
         if (mSourceTarget != null)
         {
             CardSlotController oldCSC = mSourceTarget.GetComponent<CardSlotController>();
@@ -86,11 +91,21 @@ public class PlayingCardController : MonoBehaviour
                 oldCSC.TakeCard();
             }
         }
-        CardSlotController newCSC = mDropTarget.GetComponent<CardSlotController>();
-        if (newCSC != null)
+        switch (mDropTarget.tag)
         {
-            newCSC.PlaceCard(gameObject);
+            case "Card Slot":
+                CardSlotController newCSC = mDropTarget.GetComponent<CardSlotController>();
+                if (newCSC != null)
+                {
+                    newCSC.PlaceCard(gameObject);
+                }
+                break;
+            case "PlayZone":
+                Debug.Log("Playing card: " + gameObject.name);
+                mGameController.ActivateCard(this);
+                break;
         }
+
         transform.position = mDropTarget.transform.position + kDropOffset;
     }
 

@@ -138,4 +138,10 @@ public class GameController : MonoBehaviour
             }
         }
     }
+
+    public void ActivateCard(PlayingCardController card)
+    {
+        mPlayer.ActOnCard(card);
+        mDiscardPile.AddToDiscard(card.gameObject);
+    }
 }

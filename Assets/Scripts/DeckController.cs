@@ -4,6 +4,15 @@ using UnityEngine;
 
 public class DeckController : MonoBehaviour
 {
+    public Vector3 Center
+    {
+        get
+        {
+            RectTransform rT = GetComponent<RectTransform>();
+            return transform.position + new Vector3(rT.rect.width * 0.5f, rT.rect.height * 0.5f, 0);
+        }
+    }
+
     private Stack<GameObject> mDeck;
 
     public bool IsEmpty { get { return mDeck.Count == 0; } }
@@ -23,7 +32,7 @@ public class DeckController : MonoBehaviour
     {
         Debug.Log("Adding card " + card.name + " to deck");
         card.transform.SetParent(transform.parent);
-        card.transform.position = transform.position + Vector3.forward + Vector3.down * 5.0f * mDeck.Count;
+        card.transform.position = Center + Vector3.forward + Vector3.down * 5.0f * mDeck.Count;
         mDeck.Push(card);
     }
 
