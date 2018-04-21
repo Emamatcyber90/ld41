@@ -1,10 +1,30 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// Power cards have:
+/// Direction + Power
+/// </summary>
+public enum CardType
+{
+    RunLeft,
+    RunRight,
+    JumpLow,
+    JumpHigh,
+    Block
+}
+
 public class PlayingCardController : MonoBehaviour
 {
+    public CardType cardType;
+    public int cardPower;
+
     #region Drag Properties
 
     private Vector3 mDragOffset;
+
+    // If this is getting picked up, keep tabs on the starter slot in to clear it out
+    private Transform mSourceTarget;
+
     private Transform mDropTarget;
     private Vector3 kDropOffset = new Vector3(0, 0, -1.0f);
 
@@ -38,6 +58,7 @@ public class PlayingCardController : MonoBehaviour
 
     public void OnBeginDrag()
     {
+        mSourceTarget = mDropTarget;
         mDragOffset = Input.mousePosition - transform.position;
     }
 
@@ -56,6 +77,25 @@ public class PlayingCardController : MonoBehaviour
 
     private void GoToDropTarget()
     {
+        // First clear the old one
+        if (mSourceTarget != null)
+        {
+            CardSlotController oldCSC = mSourceTarget.GetComponent<CardSlotController>();
+            if (oldCSC)
+            {
+                oldCSC.TakeCard();
+            }
+        }
+        CardSlotController newCSC = mDropTarget.GetComponent<CardSlotController>();
+        if (newCSC != null)
+        {
+            newCSC.PlaceCard(gameObject);
+        }
         transform.position = mDropTarget.transform.position + kDropOffset;
+    }
+
+    private void OnDrawGizmos()
+    {
+        TextGizmo.Instance.DrawText(transform.position, string.Format("{0},{1}", cardType, cardPower));
     }
 }

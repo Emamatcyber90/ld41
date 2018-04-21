@@ -1,0 +1,114 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public enum GameState
+{
+    Starting,
+    Initializing,
+    Playing,
+    Paused,
+    Menu
+}
+
+public class GameController : MonoBehaviour
+{
+    public GameState mState = GameState.Playing;
+
+    private DeckController mDeck;
+    private HandController mHand;
+    private DiscardPileController mDiscardPile;
+    private PlayerController mPlayer;
+    private GameObject mCamera;
+
+    public GameObject PREFAB_CARD;
+
+    // Use this for initialization
+    private void Start()
+    {
+        mDeck = GameObject.Find("Deck").GetComponent<DeckController>();
+        mHand = GameObject.Find("Action Hand").GetComponent<HandController>();
+        mDiscardPile = GameObject.Find("Discard Pile").GetComponent<DiscardPileController>();
+        mPlayer = GameObject.Find("Player").GetComponent<PlayerController>();
+        mCamera = GameObject.Find("Main Camera");
+
+        Debug.Assert(mDeck != null);
+        Debug.Assert(mHand != null);
+        Debug.Assert(mDiscardPile != null);
+        Debug.Assert(mPlayer != null);
+        Debug.Assert(mCamera != null);
+
+        Debug.Assert(PREFAB_CARD != null, "You must assign the Card Prefab in the inspector");
+    }
+
+    // Update is called once per frame
+    private void Update()
+    {
+        switch (mState)
+        {
+            case GameState.Starting:
+                // Initialize the game
+                mState = GameState.Initializing;
+                break;
+            case GameState.Initializing:
+                InitializeGameplay();
+                mState = GameState.Playing;
+                break;
+            case GameState.Playing:
+                break;
+        }
+    }
+
+    private void InitializeGameplay()
+    {
+        // Create 10 cards for your deck
+        for (int count = 0; count < 10; ++count)
+        {
+            // Create new card and add it to the Deck
+            GameObject newCard = MakeCard();
+            mDeck.AddCardToDeck(newCard);
+        }
+    }
+
+    private GameObject MakeCard()
+    {
+        // Random for now
+        GameObject result = Instantiate(PREFAB_CARD);
+        PlayingCardController card = result.GetComponent<PlayingCardController>();
+        float roll = Random.Range(0.0f, 1.0f);
+        // TODO: Actually not make this random because random is terrible
+        if (roll < 0.25)
+        {
+            card.cardType = CardType.JumpLow;
+        }
+        else if (roll < 0.5)
+        {
+            card.cardType = CardType.RunLeft;
+            card.cardPower = Random.Range(1, 6);
+        }
+        else if (roll < 0.75)
+        {
+            card.cardType = CardType.RunRight;
+            card.cardPower = Random.Range(1, 6);
+        }
+        else
+        {
+            card.cardType = CardType.JumpHigh;
+        }
+        Debug.Log("New card created: " + card.cardType + ", " + card.cardPower);
+        result.name = string.Format("card_{0}_{1}", card.cardType, card.cardPower);
+        return result;
+    }
+
+    public void AddCardToHand()
+    {
+        if (mHand.hasRoom)
+        {
+            GameObject newCard = mDeck.GetCard();
+            if (newCard != null)
+            {
+                mHand.TakeCardIntoHand(newCard);
+            }
+        }
+    }
+}
