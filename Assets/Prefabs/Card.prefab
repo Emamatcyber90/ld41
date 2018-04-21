@@ -76,6 +76,11 @@ MonoBehaviour:
   - {fileID: 21300002, guid: ef0bff8f9d5c34c46822cda45de0f527, type: 3}
   - {fileID: 21300004, guid: ef0bff8f9d5c34c46822cda45de0f527, type: 3}
   - {fileID: 21300006, guid: ef0bff8f9d5c34c46822cda45de0f527, type: 3}
+  - {fileID: 21300008, guid: ef0bff8f9d5c34c46822cda45de0f527, type: 3}
+  - {fileID: 21300010, guid: ef0bff8f9d5c34c46822cda45de0f527, type: 3}
+  - {fileID: 21300012, guid: ef0bff8f9d5c34c46822cda45de0f527, type: 3}
+  - {fileID: 21300014, guid: ef0bff8f9d5c34c46822cda45de0f527, type: 3}
+  - {fileID: 21300016, guid: ef0bff8f9d5c34c46822cda45de0f527, type: 3}
   cardType: 0
   cardPower: 0
 --- !u!114 &114332730915858994

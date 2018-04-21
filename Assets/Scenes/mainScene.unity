@@ -148,7 +148,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 80, y: 30}
+  m_SizeDelta: {x: 57.6, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &28027018
 MonoBehaviour:
@@ -1774,7 +1774,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 60, y: 30}
+  m_SizeDelta: {x: 70.1, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &513931506
 MonoBehaviour:
@@ -2993,7 +2993,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 467482699}
-        m_MethodName: AddCardToHand
+        m_MethodName: ReshuffleDiscard
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

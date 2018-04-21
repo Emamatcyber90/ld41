@@ -48,17 +48,17 @@ public class PlayingCardController : MonoBehaviour
         Image img = GetComponent<Image>();
         switch (cardType)
         {
-            case CardType.JumpHigh:
+            case CardType.JumpLow:
                 img.sprite = mReplacementSprites[0];
                 break;
-            case CardType.JumpLow:
+            case CardType.JumpHigh:
                 img.sprite = mReplacementSprites[1];
-                break;
-            case CardType.RunRight:
-                img.sprite = mReplacementSprites[2];
                 break;
             case CardType.RunLeft:
                 img.sprite = mReplacementSprites[3];
+                break;
+            case CardType.RunRight:
+                img.sprite = mReplacementSprites[6];
                 break;
         }
     }
