@@ -26,6 +26,7 @@ public class PlayerController : MonoBehaviour
     private Direction mRunDir;
     private PlayerState mState = PlayerState.IDLE;
 
+    public const float kControlCheckDist = 0.5f;
     private bool mIsGrounded = false;
     private LayerMask mGroundedIgnoreMask;
 
@@ -63,17 +64,33 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
+            // Cast a capsule toward the direction
+            Vector3 dirVec = Vector3.zero;
             Vector3 newPosition = transform.position;
             switch (mRunDir)
             {
                 case Direction.LEFT:
-                    newPosition = transform.position + Vector3.left * kRunSpeed * Time.deltaTime;
+                    dirVec = Vector3.left;
                     break;
                 case Direction.RIGHT:
-                    newPosition = transform.position + Vector3.right * kRunSpeed * Time.deltaTime;
+                    dirVec = Vector3.right;
                     break;
             }
-            body.MovePosition(newPosition);
+            // Instead of doing a capsule just #CLAMJAM it
+            Vector3 castPointBottom = transform.position + (-transform.up * 0.25f);
+            Vector3 castPointCenter = transform.position;
+            Vector3 castPointTop = transform.position + transform.up * 0.25f;
+            Debug.DrawRay(castPointBottom, dirVec * kControlCheckDist, Color.blue);
+            Debug.DrawRay(castPointCenter, dirVec * kControlCheckDist, Color.blue);
+            Debug.DrawRay(castPointTop, dirVec * kControlCheckDist, Color.blue);
+            bool bottomCastHit = Physics.Raycast(castPointBottom, dirVec, kControlCheckDist, mGroundedIgnoreMask);
+            bool centerCastHit = Physics.Raycast(castPointBottom, dirVec, kControlCheckDist, mGroundedIgnoreMask);
+            bool topCastHit = Physics.Raycast(castPointBottom, dirVec, kControlCheckDist, mGroundedIgnoreMask);
+            newPosition += dirVec * kRunSpeed * Time.deltaTime;
+            if (!(bottomCastHit || centerCastHit || topCastHit))
+            {
+                body.MovePosition(newPosition);
+            }
         }
     }
 
