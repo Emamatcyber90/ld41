@@ -18,6 +18,7 @@ public enum PlayerState
 public class PlayerController : MonoBehaviour
 {
     private Rigidbody body;
+    public float kJumpPower = 30f;
     public float kRunSpeed = 1.0f;
 
     private float mRunStart;
@@ -25,16 +26,24 @@ public class PlayerController : MonoBehaviour
     private Direction mRunDir;
     private PlayerState mState = PlayerState.IDLE;
 
+    private bool mIsGrounded = false;
+    private LayerMask mGroundedIgnoreMask;
+
     // Use this for initialization
     private void Start()
     {
         Debug.Log("Hello player here");
         body = GetComponent<Rigidbody>();
+        mGroundedIgnoreMask = ~LayerMask.GetMask("player");
     }
 
     // Update is called once per frame
     private void Update()
     {
+        Vector3 dirVec = -transform.up;
+        const float kGroundCheckDist = 1.0f;
+        Debug.DrawRay(transform.position, dirVec * kGroundCheckDist, Color.red, 0.125f);
+        mIsGrounded = Physics.Raycast(transform.position, dirVec, kGroundCheckDist, mGroundedIgnoreMask);
     }
 
     private void DoRun()
@@ -73,7 +82,10 @@ public class PlayerController : MonoBehaviour
     public void ActionJump()
     {
         Debug.Log("Player Jumpin");
-        body.AddForce(Vector3.up * 10f, ForceMode.Impulse);
+        if (mIsGrounded)
+        {
+            body.AddForce(Vector3.up * kJumpPower, ForceMode.Impulse);
+        }
     }
 
     public void ActionRunLeft(float dist)
@@ -95,4 +107,10 @@ public class PlayerController : MonoBehaviour
     }
 
     #endregion User Actions
+
+    public void OnDrawGizmos()
+    {
+        TextGizmo.Instance.DrawText(transform.position, mState.ToString());
+        TextGizmo.Instance.DrawText(transform.position + transform.up * 0.5f, string.Format("isGrounded: {0}", mIsGrounded));
+    }
 }

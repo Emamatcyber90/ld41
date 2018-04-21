@@ -20,6 +20,6 @@ public class CameraController : MonoBehaviour
         // Move toward the player
         Vector3 targetPosition = (mPlayer.transform.position + kCameraOffset);
         Debug.DrawLine(transform.position, targetPosition, Color.yellow);
-        transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref mVelocity, 0.3f);
+        transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref mVelocity, 0.1f);
     }
 }
