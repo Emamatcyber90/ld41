@@ -6,6 +6,8 @@ public class DeckController : MonoBehaviour
 {
     private Stack<GameObject> mDeck;
 
+    public bool IsEmpty { get { return mDeck.Count == 0; } }
+
     // Use this for initialization
     private void Start()
     {

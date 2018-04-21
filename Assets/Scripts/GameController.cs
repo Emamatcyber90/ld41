@@ -48,14 +48,41 @@ public class GameController : MonoBehaviour
         {
             case GameState.Starting:
                 // Initialize the game
+                InitializeGameplay();
+                Invoke("RecursivelyAddCardsToHand", 2.5f);
                 mState = GameState.Initializing;
                 break;
             case GameState.Initializing:
-                InitializeGameplay();
-                mState = GameState.Playing;
                 break;
             case GameState.Playing:
+                if (mHand.HasRoom && !mDeck.IsEmpty)
+                {
+                    AddCardToHand();
+                }
                 break;
+        }
+    }
+
+    private void StartGameCallback()
+    {
+        mState = GameState.Playing;
+        Debug.Log("Starting game!");
+    }
+
+    /// <summary>
+    /// Stupid function to recursively invoke itself until no cards exist
+    /// </summary>
+    private void RecursivelyAddCardsToHand()
+    {
+        if (mHand.HasRoom)
+        {
+            Invoke("RecursivelyAddCardsToHand", 0.25f);
+            AddCardToHand();
+        }
+        else
+        {
+            Debug.Log("Finished recursively adding cards to hand");
+            Invoke("StartGameCallback", 1.0f);
         }
     }
 
@@ -102,7 +129,7 @@ public class GameController : MonoBehaviour
 
     public void AddCardToHand()
     {
-        if (mHand.hasRoom)
+        if (mHand.HasRoom)
         {
             GameObject newCard = mDeck.GetCard();
             if (newCard != null)

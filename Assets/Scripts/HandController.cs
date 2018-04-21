@@ -6,7 +6,7 @@ public class HandController : MonoBehaviour
 {
     private List<CardSlotController> mSlots;
 
-    public bool hasRoom
+    public bool HasRoom
     {
         get
         {
