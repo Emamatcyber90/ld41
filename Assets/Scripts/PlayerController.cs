@@ -42,8 +42,16 @@ public class PlayerController : MonoBehaviour
     {
         Vector3 dirVec = -transform.up;
         const float kGroundCheckDist = 1.0f;
-        Debug.DrawRay(transform.position, dirVec * kGroundCheckDist, Color.red, 0.125f);
-        mIsGrounded = Physics.Raycast(transform.position, dirVec, kGroundCheckDist, mGroundedIgnoreMask);
+        Vector3 castPointLeft = transform.position + Vector3.left * 0.5f;
+        Vector3 castPointCenter = transform.position;
+        Vector3 castPointRight = transform.position + Vector3.right * 0.5f;
+        Debug.DrawRay(castPointLeft, dirVec * kGroundCheckDist, Color.red);
+        Debug.DrawRay(castPointCenter, dirVec * kGroundCheckDist, Color.red);
+        Debug.DrawRay(castPointRight, dirVec * kGroundCheckDist, Color.red);
+        bool leftGround = Physics.Raycast(castPointLeft, dirVec, kGroundCheckDist, mGroundedIgnoreMask);
+        bool centerGround = Physics.Raycast(castPointCenter, dirVec, kGroundCheckDist, mGroundedIgnoreMask);
+        bool rightGround = Physics.Raycast(castPointRight, dirVec, kGroundCheckDist, mGroundedIgnoreMask);
+        mIsGrounded = leftGround || centerGround || rightGround;
     }
 
     private void DoRun()
