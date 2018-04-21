@@ -1,4 +1,4 @@
-[![Waffle.io - Columns and their card count](https://badge.waffle.io/randonia/ld41.png?columns=all)](https://waffle.io/randonia/ld41?utm_source=badge)
+[![Waffle.io - Columns and their card count](https://badge.waffle.io/randonia/ld41.png?columns=all&style=flat-square)](https://waffle.io/randonia/ld41?utm_source=badge)
 # ld41 #
 Ludum Dare 41
 
