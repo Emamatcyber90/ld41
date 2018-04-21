@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    private Vector3 kCameraOffset = new Vector3(0, 3, -10);
+    public Vector3 kCameraOffset = new Vector3(0, -3, -10);
     private GameObject mPlayer;
     private Vector3 mVelocity = Vector3.zero;
 
