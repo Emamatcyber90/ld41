@@ -28,12 +28,21 @@ public class DeckController : MonoBehaviour
     {
     }
 
-    public void AddCardToDeck(GameObject card)
+    public void AddCardToDeck(GameObject card, bool tween = false)
     {
         Debug.Log("Adding card " + card.name + " to deck");
         card.transform.SetParent(transform.parent);
-        card.transform.position = Center + Vector3.forward + Vector3.down * 5.0f * mDeck.Count;
+        Vector3 targetPos = Center + Vector3.forward + Vector3.down * 5.0f * mDeck.Count;
+        if (tween)
+        {
+            iTween.MoveTo(card, iTween.Hash("position", targetPos, "time", Random.Range(0.1f, 0.35f)));
+        }
+        else
+        {
+            card.transform.position = targetPos;
+        }
         mDeck.Push(card);
+        card.GetComponent<PlayingCardController>().Clickable = false;
     }
 
     public GameObject GetCard()
@@ -42,6 +51,8 @@ public class DeckController : MonoBehaviour
         {
             return null;
         }
-        return mDeck.Pop();
+        GameObject card = mDeck.Pop();
+        card.GetComponent<PlayingCardController>().Clickable = true;
+        return card;
     }
 }

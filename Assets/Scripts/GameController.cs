@@ -145,4 +145,25 @@ public class GameController : MonoBehaviour
         mPlayer.ActOnCard(card);
         mDiscardPile.AddToDiscard(card.gameObject);
     }
+
+    public void ReshuffleDiscard()
+    {
+        if (!mDeck.IsEmpty)
+        {
+            Debug.LogWarning("Called Reshuffle but the deck isn't empty");
+            return;
+        }
+        Debug.Log("Shuffling Discard into deck!");
+        List<GameObject> newDeck = new List<GameObject>();
+        while (!mDiscardPile.IsEmpty)
+        {
+            newDeck.Add(mDiscardPile.RemoveFromDiscard());
+        }
+        // Randomly place each card back into the deck
+        newDeck.Sort((left, right) => 1 - Random.Range(0, 3));
+        foreach (GameObject go in newDeck)
+        {
+            mDeck.AddCardToDeck(go, true);
+        }
+    }
 }

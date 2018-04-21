@@ -13,6 +13,7 @@ public class DiscardPileController : MonoBehaviour
         }
     }
 
+    public bool IsEmpty { get { return mDiscardPile.Count == 0; } }
     private Stack<GameObject> mDiscardPile;
 
     // Use this for initialization
@@ -31,6 +32,12 @@ public class DiscardPileController : MonoBehaviour
         // Tween it over!
         mDiscardPile.Push(card);
         Vector3 targetPosition = Center + Vector3.down * 2.0f * mDiscardPile.Count;
+        card.GetComponent<PlayingCardController>().Clickable = false;
         iTween.MoveTo(card, iTween.Hash("position", targetPosition, "time", 0.25f));
+    }
+
+    public GameObject RemoveFromDiscard()
+    {
+        return mDiscardPile.Pop();
     }
 }

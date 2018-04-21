@@ -16,6 +16,7 @@ public enum CardType
 
 public class PlayingCardController : MonoBehaviour
 {
+    public bool Clickable;
     public Sprite[] mReplacementSprites;
     public CardType cardType;
     public int cardPower;
@@ -85,17 +86,29 @@ public class PlayingCardController : MonoBehaviour
 
     public void OnBeginDrag()
     {
+        if (!Clickable)
+        {
+            return;
+        }
         mSourceTarget = mDropTarget;
         mDragOffset = Input.mousePosition - transform.position;
     }
 
     public void OnDrag()
     {
+        if (!Clickable)
+        {
+            return;
+        }
         transform.position = Input.mousePosition - mDragOffset;
     }
 
     public void OnEndDrag()
     {
+        if (!Clickable)
+        {
+            return;
+        }
         if (mDropTarget)
         {
             GoToDropTarget();
@@ -134,5 +147,6 @@ public class PlayingCardController : MonoBehaviour
     private void OnDrawGizmos()
     {
         TextGizmo.Instance.DrawText(transform.position, string.Format("{0},{1}", cardType, cardPower));
+        TextGizmo.Instance.DrawText(transform.position + Vector3.down * 10f, string.Format("touchable: {0}", Clickable));
     }
 }

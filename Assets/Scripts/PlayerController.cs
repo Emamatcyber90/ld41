@@ -125,7 +125,7 @@ public class PlayerController : MonoBehaviour
         mState = PlayerState.RUNNING;
         mRunDir = dir;
         mRunStart = Time.time;
-        mRunDuration = dist;
+        mRunDuration = 1.0f;
     }
 
     #endregion User Actions

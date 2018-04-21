@@ -70,6 +70,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8698a87ab5cbdc468d032d9a01e292b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Clickable: 0
+  mReplacementSprites:
+  - {fileID: 21300000, guid: ef0bff8f9d5c34c46822cda45de0f527, type: 3}
+  - {fileID: 21300002, guid: ef0bff8f9d5c34c46822cda45de0f527, type: 3}
+  - {fileID: 21300004, guid: ef0bff8f9d5c34c46822cda45de0f527, type: 3}
+  - {fileID: 21300006, guid: ef0bff8f9d5c34c46822cda45de0f527, type: 3}
+  cardType: 0
+  cardPower: 0
 --- !u!114 &114332730915858994
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -89,8 +97,8 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300010, guid: ef0bff8f9d5c34c46822cda45de0f527, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
