@@ -45,6 +45,20 @@ public class DeckController : MonoBehaviour
         card.GetComponent<PlayingCardController>().Clickable = false;
     }
 
+    public void ShuffleDeck()
+    {
+        List<GameObject> shufflePile = new List<GameObject>();
+        while (mDeck.Count > 0)
+        {
+            shufflePile.Add(mDeck.Pop());
+        }
+        shufflePile.Sort((left, right) => 1 - Random.Range(0, 3));
+        foreach (GameObject go in shufflePile)
+        {
+            AddCardToDeck(go, true);
+        }
+    }
+
     public GameObject GetCard()
     {
         if (mDeck.Count < 1)

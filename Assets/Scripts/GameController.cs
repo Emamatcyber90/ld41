@@ -88,40 +88,33 @@ public class GameController : MonoBehaviour
 
     private void InitializeGameplay()
     {
-        // Create 10 cards for your deck
-        for (int count = 0; count < 10; ++count)
+        // Create 10 cards for your starter deck
+        GameObject[] newDeck = new GameObject[]
         {
-            // Create new card and add it to the Deck
-            GameObject newCard = MakeCard();
+            MakeCard(CardType.RunLeft, 1),
+            MakeCard(CardType.RunLeft, 1),
+            MakeCard(CardType.RunLeft, 2),
+            MakeCard(CardType.RunRight, 1),
+            MakeCard(CardType.RunRight, 1),
+            MakeCard(CardType.RunRight, 2),
+            MakeCard(CardType.RunRight, 2),
+            MakeCard(CardType.JumpLow, 1),
+            MakeCard(CardType.JumpLow, 1),
+            MakeCard(CardType.JumpLow, 1)
+        };
+        foreach (GameObject newCard in newDeck)
+        {
             mDeck.AddCardToDeck(newCard);
         }
     }
 
-    private GameObject MakeCard()
+    private GameObject MakeCard(CardType type, int power = -1)
     {
         // Random for now
         GameObject result = Instantiate(PREFAB_CARD);
         PlayingCardController card = result.GetComponent<PlayingCardController>();
-        float roll = Random.Range(0.0f, 1.0f);
-        // TODO: Actually not make this random because random is terrible
-        if (roll < 0.25)
-        {
-            card.cardType = CardType.JumpLow;
-        }
-        else if (roll < 0.5)
-        {
-            card.cardType = CardType.RunLeft;
-            card.cardPower = Random.Range(1, 6);
-        }
-        else if (roll < 0.75)
-        {
-            card.cardType = CardType.RunRight;
-            card.cardPower = Random.Range(1, 6);
-        }
-        else
-        {
-            card.cardType = CardType.JumpHigh;
-        }
+        card.cardType = type;
+        card.cardPower = power;
         card.LoadAsset();
         Debug.Log("New card created: " + card.cardType + ", " + card.cardPower);
         result.name = string.Format("card_{0}_{1}", card.cardType, card.cardPower);

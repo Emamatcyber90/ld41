@@ -55,10 +55,35 @@ public class PlayingCardController : MonoBehaviour
                 img.sprite = mReplacementSprites[1];
                 break;
             case CardType.RunLeft:
-                img.sprite = mReplacementSprites[3];
+                switch (cardPower)
+                {
+                    case 1:
+                        img.sprite = mReplacementSprites[3];
+
+                        break;
+                    case 2:
+                        img.sprite = mReplacementSprites[4];
+
+                        break;
+                    case 3:
+                        img.sprite = mReplacementSprites[5];
+
+                        break;
+                }
                 break;
             case CardType.RunRight:
-                img.sprite = mReplacementSprites[6];
+                switch (cardPower)
+                {
+                    case 1:
+                        img.sprite = mReplacementSprites[6];
+                        break;
+                    case 2:
+                        img.sprite = mReplacementSprites[7];
+                        break;
+                    case 3:
+                        img.sprite = mReplacementSprites[8];
+                        break;
+                }
                 break;
         }
     }
