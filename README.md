@@ -7,6 +7,8 @@
 
 **[Play it Online Here!][12]**
 
+![](https://raw.githubusercontent.com/randonia/ld41/master/screenshots/playerheader.gif)
+
 ### Links ###
 + [Ludum Dare Game Page][10]
 + Twitter: [@zambini845][11]
