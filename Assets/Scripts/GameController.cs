@@ -12,6 +12,13 @@ public enum GameState
     Menu
 }
 
+public enum AudioCategory
+{
+    CardPlace,
+    CardPlay,
+    CardShuffle
+}
+
 public class GameController : MonoBehaviour
 {
     public GameState mState = GameState.Playing;
@@ -28,6 +35,14 @@ public class GameController : MonoBehaviour
     private float mPlayTime;
     public float Playtime { get { return mPlayTime; } }
     public GameObject PREFAB_CARD;
+
+    public GameObject AudioPlayerBGM;
+    public GameObject AudioPlayerCardPlace;
+    public GameObject AudioPlayerCardPlay;
+    public GameObject AudioPlayerShuffle;
+
+    private float mLastCardAdd;
+    public float kCardAddToHandDelay = 0.125f;
 
     // Use this for initialization
     private void Start()
@@ -69,9 +84,10 @@ public class GameController : MonoBehaviour
             case GameState.Initializing:
                 break;
             case GameState.Playing:
-                if (mHand.HasRoom && !mDeck.IsEmpty)
+                if (mHand.HasRoom && !mDeck.IsEmpty && (mLastCardAdd + kCardAddToHandDelay < Time.time))
                 {
                     AddCardToHand();
+                    mLastCardAdd = Time.time;
                 }
                 break;
         }
@@ -178,7 +194,7 @@ public class GameController : MonoBehaviour
 
     public void OnMuteToggle()
     {
-        AudioSource bgm = GetComponent<AudioSource>();
+        AudioSource bgm = AudioPlayerBGM.GetComponent<AudioSource>();
         if (bgm.isPlaying)
         {
             bgm.Pause();
@@ -191,6 +207,31 @@ public class GameController : MonoBehaviour
         muteSprite.GetComponent<Image>().sprite = (bgm.isPlaying) ? mPlayingSprite : mMuteSprite;
     }
 
+    public void PlayAudio(AudioCategory audio)
+    {
+        GameObject target = null;
+        switch (audio)
+        {
+            case AudioCategory.CardPlace:
+                target = AudioPlayerCardPlace;
+                break;
+            case AudioCategory.CardPlay:
+                target = AudioPlayerCardPlay;
+                break;
+            case AudioCategory.CardShuffle:
+                target = AudioPlayerShuffle;
+                break;
+        }
+        if (target != null)
+        {
+            // Get all the audio sources
+            AudioSource[] sources = target.GetComponents<AudioSource>();
+            // Pick a random one
+            int randomSource = Random.Range(0, sources.Length);
+            sources[randomSource].Play();
+        }
+    }
+
     public void AddCardToHand()
     {
         if (mHand.HasRoom)
@@ -199,6 +240,7 @@ public class GameController : MonoBehaviour
             if (newCard != null)
             {
                 mHand.TakeCardIntoHand(newCard);
+                PlayAudio(AudioCategory.CardPlace);
             }
         }
     }
@@ -207,6 +249,7 @@ public class GameController : MonoBehaviour
     {
         mPlayer.ActOnCard(card);
         mDiscardPile.AddToDiscard(card.gameObject);
+        PlayAudio(AudioCategory.CardPlay);
         DiscardHand();
     }
 
@@ -236,6 +279,10 @@ public class GameController : MonoBehaviour
         {
             newDeck.Add(mDiscardPile.RemoveFromDiscard());
         }
+        if (newDeck.Count > 0)
+        {
+            PlayAudio(AudioCategory.CardShuffle);
+        }
         // Randomly place each card back into the deck
         newDeck.Sort((left, right) => 1 - Random.Range(0, 3));
         foreach (GameObject go in newDeck)
@@ -249,7 +296,7 @@ public class GameController : MonoBehaviour
         PlayingCardController card1 = firstCard.GetComponent<PlayingCardController>();
         PlayingCardController card2 = secondCard.GetComponent<PlayingCardController>();
         Debug.Log("Combining cards: " + firstCard.name + " + " + secondCard.name);
-
+        PlayAudio(AudioCategory.CardPlay);
         mPlayer.ActOnCardPair(card1, card2);
         ConsumeCard(card1);
         ConsumeCard(card2, false);
