@@ -1,17 +1,31 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CheckpointController : MonoBehaviour
 {
     private GameController mGameController;
     private Renderer mRenderer;
+    public GameObject WinScreenUI;
+    public GameObject mConfettiSystem;
+    private ParticleSystem mConfetti;
+
+    public string PlaytimeStr
+    {
+        get
+        {
+            return string.Format("{0}:{1:00}", Mathf.FloorToInt(mGameController.Playtime / 60), Mathf.FloorToInt(mGameController.Playtime % 60));
+        }
+    }
 
     // Use this for initialization
     private void Start()
     {
+        Debug.Assert(WinScreenUI != null);
         mRenderer = GetComponent<Renderer>();
         mGameController = GameObject.Find("GameController").GetComponent<GameController>();
+        mConfetti = mConfettiSystem.GetComponent<ParticleSystem>();
     }
 
     // Update is called once per frame
@@ -22,9 +36,19 @@ public class CheckpointController : MonoBehaviour
         mRenderer.material.mainTextureOffset = offset;
     }
 
+    public void OpenTweetLink()
+    {
+        string tweetStr = string.Format("https://twitter.com/intent/tweet?text=I%20can't%20believe%20I%20beat%20%40zambini845%20's%20ridiculous%20game%20in%20only%20{0}&hashtags=LDJAM%2CLDJAM41", PlaytimeStr);
+        Application.OpenURL(tweetStr);
+    }
+
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Player Completed the game");
-        Application.OpenURL("https://twitter.com/intent/tweet?text=I%20can't%20believe%20I%20beat%20%40zambini845%20's%20ridiculous%20game&hashtags=LDJAM%2CLDJAM41");
+        mConfetti.Play();
+        mGameController.WinGame();
+        Debug.Log("Player Completed the game!");
+        WinScreenUI.SetActive(true);
+        GameObject playTimeUI = GameObject.Find("PlayTimeTextUI");
+        playTimeUI.GetComponent<Text>().text = string.Format("Playtime: {0}", PlaytimeStr);
     }
 }

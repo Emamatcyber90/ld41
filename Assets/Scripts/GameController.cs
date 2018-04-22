@@ -8,6 +8,7 @@ public enum GameState
     Initializing,
     Playing,
     Paused,
+    Victory,
     Menu
 }
 
@@ -23,7 +24,9 @@ public class GameController : MonoBehaviour
     private PlayerController mPlayer;
     private GameObject mPlayZone;
     private GameObject mCamera;
-
+    private float mStartTime;
+    private float mPlayTime;
+    public float Playtime { get { return mPlayTime; } }
     public GameObject PREFAB_CARD;
 
     // Use this for initialization
@@ -44,11 +47,17 @@ public class GameController : MonoBehaviour
         Debug.Assert(mCamera != null);
 
         Debug.Assert(PREFAB_CARD != null, "You must assign the Card Prefab in the inspector");
+        mStartTime = Time.time;
+        mPlayTime = 0;
     }
 
     // Update is called once per frame
     private void Update()
     {
+        if (mState != GameState.Victory)
+        {
+            mPlayTime += Time.deltaTime;
+        }
         switch (mState)
         {
             case GameState.Starting:
@@ -66,6 +75,11 @@ public class GameController : MonoBehaviour
                 }
                 break;
         }
+    }
+
+    public void WinGame()
+    {
+        mState = GameState.Victory;
     }
 
     private void StartGameCallback()
