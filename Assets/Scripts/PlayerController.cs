@@ -149,6 +149,12 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void ActOnCardPair(PlayingCardController card1, PlayingCardController card2)
+    {
+        ActOnCard(card1);
+        ActOnCard(card2);
+    }
+
     private void CheckIsStillJumpingRecursive()
     {
         if (mIsGrounded)

@@ -152,12 +152,17 @@ public class PlayingCardController : MonoBehaviour
             CardSlotController csc = mDropTarget.GetComponent<CardSlotController>();
             if (csc != null)
             {
-                // Abort if it's occupied
+                // If it's occupied combine the two
                 if (csc.isOccupied)
                 {
                     Debug.Log("Droptarget is occupied! " + mDropTarget.name);
                     // Go back to the source
-                    ReturnToSource();
+                    if (mSourceTarget == null)
+                    {
+                        Debug.LogWarning("Something bad happened the source target should not be null");
+                    }
+                    CardSlotController sourceCSC = mSourceTarget.GetComponent<CardSlotController>();
+                    mGameController.ActivateCardPair(sourceCSC.TakeCard(), csc.TakeCard());
                     return;
                 }
             }

@@ -19,6 +19,7 @@ public class GameController : MonoBehaviour
     private HandController mHand;
     private DiscardPileController mDiscardPile;
     private PlayerController mPlayer;
+    private GameObject mPlayZone;
     private GameObject mCamera;
 
     public GameObject PREFAB_CARD;
@@ -31,8 +32,10 @@ public class GameController : MonoBehaviour
         mDiscardPile = GameObject.Find("Discard Pile").GetComponent<DiscardPileController>();
         mPlayer = GameObject.Find("Player").GetComponent<PlayerController>();
         mCamera = GameObject.Find("Main Camera");
+        mPlayZone = GameObject.Find("Play Zone");
 
         Debug.Assert(mDeck != null);
+        Debug.Assert(mPlayZone != null);
         Debug.Assert(mHand != null);
         Debug.Assert(mDiscardPile != null);
         Debug.Assert(mPlayer != null);
@@ -88,24 +91,60 @@ public class GameController : MonoBehaviour
 
     private void InitializeGameplay()
     {
-        // Create 10 cards for your starter deck
-        GameObject[] newDeck = new GameObject[]
+        // Create cards for your starter deck
+        Queue<GameObject> newDeck2 = new Queue<GameObject>();
+
+        // Make 5 each Run-1
+        int numRunLevel1 = 5;
+        for (int c = 1; c <= numRunLevel1; ++c)
         {
-            MakeCard(CardType.RunLeft, 1),
-            MakeCard(CardType.RunLeft, 1),
-            MakeCard(CardType.RunLeft, 2),
-            MakeCard(CardType.RunRight, 1),
-            MakeCard(CardType.RunRight, 1),
-            MakeCard(CardType.RunRight, 2),
-            MakeCard(CardType.RunRight, 2),
-            MakeCard(CardType.JumpLow, 1),
-            MakeCard(CardType.JumpLow, 1),
-            MakeCard(CardType.JumpLow, 1)
-        };
-        foreach (GameObject newCard in newDeck)
-        {
-            mDeck.AddCardToDeck(newCard);
+            newDeck2.Enqueue(MakeCard(CardType.RunLeft, 1));
         }
+        for (int c = 1; c <= numRunLevel1; ++c)
+        {
+            newDeck2.Enqueue(MakeCard(CardType.RunRight, 1));
+        }
+
+        // Make 2 each Run-2
+        int numRunLevel2 = 5;
+        for (int c = 1; c <= numRunLevel2; ++c)
+        {
+            newDeck2.Enqueue(MakeCard(CardType.RunLeft, 2));
+        }
+        for (int c = 1; c <= numRunLevel2; ++c)
+        {
+            newDeck2.Enqueue(MakeCard(CardType.RunRight, 2));
+        }
+
+        // Make 1 each Run-3
+        int numRunLevel3 = 1;
+        for (int c = 1; c <= numRunLevel3; ++c)
+        {
+            newDeck2.Enqueue(MakeCard(CardType.RunLeft, 3));
+        }
+        for (int c = 1; c <= numRunLevel3; ++c)
+        {
+            newDeck2.Enqueue(MakeCard(CardType.RunRight, 3));
+        }
+
+        // Make 5 Jump-Low
+        int numJumpLow = 5;
+        for (int c = 1; c <= numJumpLow; ++c)
+        {
+            newDeck2.Enqueue(MakeCard(CardType.JumpLow, 1));
+        }
+        // Make 2 Jump-High
+        int numJumpHigh = 5;
+        for (int c = 1; c <= numJumpHigh; ++c)
+        {
+            newDeck2.Enqueue(MakeCard(CardType.JumpHigh, 1));
+        }
+
+        while (newDeck2.Count > 0)
+        {
+            mDeck.AddCardToDeck(newDeck2.Dequeue());
+        }
+        mDeck.ShuffleDeck();
     }
 
     private GameObject MakeCard(CardType type, int power = -1)
@@ -137,6 +176,20 @@ public class GameController : MonoBehaviour
     {
         mPlayer.ActOnCard(card);
         mDiscardPile.AddToDiscard(card.gameObject);
+        DiscardHand();
+    }
+
+    public void CheckDeck()
+    {
+        if (mHand.HasRoom && mDeck.IsEmpty)
+        {
+            Debug.Log("Deck does not have enough cards, reshuffle discard pile");
+            ReshuffleDiscard();
+        }
+        else
+        {
+            Debug.Log("Deck has enough cards");
+        }
     }
 
     public void ReshuffleDiscard()
@@ -158,5 +211,41 @@ public class GameController : MonoBehaviour
         {
             mDeck.AddCardToDeck(go, true);
         }
+    }
+
+    public void ActivateCardPair(GameObject firstCard, GameObject secondCard)
+    {
+        PlayingCardController card1 = firstCard.GetComponent<PlayingCardController>();
+        PlayingCardController card2 = secondCard.GetComponent<PlayingCardController>();
+        Debug.Log("Combining cards: " + firstCard.name + " + " + secondCard.name);
+
+        mPlayer.ActOnCardPair(card1, card2);
+        ConsumeCard(card1);
+        ConsumeCard(card2, false);
+        DiscardHand();
+    }
+
+    public void DiscardHand()
+    {
+        // Put discards into discard pile
+        List<PlayingCardController> discards = mHand.DiscardRemainingHand();
+        foreach (PlayingCardController pcc in discards)
+        {
+            mDiscardPile.AddToDiscard(pcc.gameObject);
+        }
+        Invoke("CheckDeck", 0.5f);
+    }
+
+    public void ConsumeCard(PlayingCardController card, bool isFirst = true)
+    {
+        Vector3 targetDir = ((isFirst) ? Vector3.right : Vector3.left) * 50.0f;
+        Vector3 targetPosition = mPlayZone.transform.position + targetDir;
+        // Move to the "consume combo!" position, then callback onCardComsumed
+        iTween.MoveTo(card.gameObject, iTween.Hash("position", targetPosition, "time", 0.45f, "oncomplete", "onCardConsumed", "oncompletetarget", gameObject, "oncompleteparams", card));
+    }
+
+    public void onCardConsumed(PlayingCardController card)
+    {
+        mDiscardPile.AddToDiscard(card.gameObject);
     }
 }

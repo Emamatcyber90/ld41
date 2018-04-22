@@ -49,7 +49,7 @@ public class CardSlotController : MonoBehaviour
             Debug.Log(gameObject.name + " removing card " + mCurrentCard.name);
             mCurrentCard = null;
         }
-        return mCurrentCard;
+        return result;
     }
 
     private void OnDrawGizmos()

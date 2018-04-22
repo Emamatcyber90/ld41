@@ -28,7 +28,7 @@ public class HandController : MonoBehaviour
         for (int childIdx = 0; childIdx < transform.childCount; ++childIdx)
         {
             Transform child = transform.GetChild(childIdx);
-            if (child.CompareTag("Card Slot"))
+            if (child.gameObject.activeInHierarchy && child.CompareTag("Card Slot"))
             {
                 CardSlotController childCSC = child.GetComponent<CardSlotController>();
                 if (childCSC == null)
@@ -46,6 +46,19 @@ public class HandController : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
+    }
+
+    public List<PlayingCardController> DiscardRemainingHand()
+    {
+        List<PlayingCardController> result = new List<PlayingCardController>();
+        foreach (CardSlotController csc in mSlots)
+        {
+            if (csc.isOccupied)
+            {
+                result.Add(csc.TakeCard().GetComponent<PlayingCardController>());
+            }
+        }
+        return result;
     }
 
     public bool TakeCardIntoHand(GameObject card)
