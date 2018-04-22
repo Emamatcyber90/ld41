@@ -22,6 +22,12 @@ public enum AnimationState
     Running = 2
 }
 
+public enum JumpForce
+{
+    LOW,
+    HIGH
+}
+
 public class PlayerController : MonoBehaviour
 {
     private Rigidbody body;
@@ -29,12 +35,13 @@ public class PlayerController : MonoBehaviour
     public float kRunSpeed = 1.0f;
     public float kPlayerCastSizeX = 0.25f;
     private Animator mAnimator;
-    private float mRunStart;
-    private float mRunDuration;
+    private float mDistToRun;
+    private float mTimeAtWall;
+    private Vector3 mRunStartPos;
     private Direction mRunDir;
     private PlayerState mState = PlayerState.IDLE;
 
-    public const float kControlCheckDist = 0.5f;
+    public float kControlCheckDist = 0.5f;
     private bool mIsGrounded = false;
     private bool mIsStillJumping = false;
     private LayerMask mGroundedIgnoreMask;
@@ -82,40 +89,62 @@ public class PlayerController : MonoBehaviour
 
     private void DoRun()
     {
-        // We're outta running time
-        if (mRunStart + mRunDuration < Time.time)
+        // Check if we've run far enough
+        if (mDistToRun <= Mathf.Abs(transform.position.x - mRunStartPos.x))
         {
+            // We've run exactly far enough, stop running
+            Debug.Log("Exactly enough running");
+            Vector3 newPos = transform.position;
+            newPos.x = Mathf.Round(transform.position.x);
+            transform.position = newPos;
             mState = PlayerState.IDLE;
+        }
+        else if (mTimeAtWall >= 1)
+        {
+            // Test if we've been at a wall too long
+            mState = PlayerState.IDLE;
+            mDistToRun = 0;
         }
         else
         {
-            // Cast a capsule toward the direction
-            Vector3 dirVec = Vector3.zero;
-            Vector3 newPosition = transform.position;
-            switch (mRunDir)
-            {
-                case Direction.LEFT:
-                    dirVec = Vector3.left;
-                    break;
-                case Direction.RIGHT:
-                    dirVec = Vector3.right;
-                    break;
-            }
-            // Instead of doing a capsule just #CLAMJAM it
-            Vector3 castPointBottom = transform.position + (-transform.up * 0.25f);
-            Vector3 castPointCenter = transform.position;
-            Vector3 castPointTop = transform.position + transform.up * 0.25f;
-            Debug.DrawRay(castPointBottom, dirVec * kControlCheckDist, Color.blue);
-            Debug.DrawRay(castPointCenter, dirVec * kControlCheckDist, Color.blue);
-            Debug.DrawRay(castPointTop, dirVec * kControlCheckDist, Color.blue);
-            bool bottomCastHit = Physics.Raycast(castPointBottom, dirVec, kControlCheckDist, mGroundedIgnoreMask);
-            bool centerCastHit = Physics.Raycast(castPointBottom, dirVec, kControlCheckDist, mGroundedIgnoreMask);
-            bool topCastHit = Physics.Raycast(castPointBottom, dirVec, kControlCheckDist, mGroundedIgnoreMask);
-            newPosition += dirVec * kRunSpeed * Time.deltaTime;
-            if (!(bottomCastHit || centerCastHit || topCastHit))
-            {
-                body.MovePosition(newPosition);
-            }
+            // Finally, just keep moving
+            MoveDirection(mRunDir);
+        }
+    }
+
+    private void MoveDirection(Direction dir)
+    {
+        // Cast a capsule toward the direction
+        Vector3 dirVec = Vector3.zero;
+        Vector3 newPosition = transform.position;
+        switch (mRunDir)
+        {
+            case Direction.LEFT:
+                dirVec = Vector3.left;
+                break;
+            case Direction.RIGHT:
+                dirVec = Vector3.right;
+                break;
+        }
+        // Instead of doing a capsule just #CLAMJAM it
+        Vector3 castPointBottom = transform.position + (-transform.up * 0.35f);
+        Vector3 castPointCenter = transform.position;
+        Vector3 castPointTop = transform.position + transform.up * 0.45f;
+        Debug.DrawRay(castPointBottom, dirVec * kControlCheckDist, Color.blue);
+        Debug.DrawRay(castPointCenter, dirVec * kControlCheckDist, Color.blue);
+        Debug.DrawRay(castPointTop, dirVec * kControlCheckDist, Color.blue);
+        bool bottomCastHit = Physics.Raycast(castPointBottom, dirVec, kControlCheckDist, mGroundedIgnoreMask);
+        bool centerCastHit = Physics.Raycast(castPointBottom, dirVec, kControlCheckDist, mGroundedIgnoreMask);
+        bool topCastHit = Physics.Raycast(castPointBottom, dirVec, kControlCheckDist, mGroundedIgnoreMask);
+        newPosition += dirVec * kRunSpeed * Time.deltaTime;
+        if (bottomCastHit || centerCastHit || topCastHit)
+        {
+            // Increase the time spent at the wall
+            mTimeAtWall += Time.deltaTime;
+        }
+        else // We're free to run!
+        {
+            body.MovePosition(newPosition);
         }
     }
 
@@ -125,24 +154,26 @@ public class PlayerController : MonoBehaviour
         {
             DoRun();
         }
+        Debug.DrawRay(transform.position, Vector3.left * kControlCheckDist, Color.yellow);
+        Debug.DrawRay(transform.position, Vector3.right * kControlCheckDist, Color.yellow);
     }
 
-    public void ActOnCard(PlayingCardController card)
+    public void ActOnCard(PlayingCardController card, int multiplier = 1)
     {
         Debug.Log("Player acting on card: " + card.gameObject.name);
         switch (card.cardType)
         {
             case CardType.RunLeft:
-                ActionRunLeft(card.cardPower);
+                ActionRunLeft(card.cardPower * multiplier);
                 break;
             case CardType.RunRight:
-                ActionRunRight(card.cardPower);
+                ActionRunRight(card.cardPower * multiplier);
                 break;
             case CardType.JumpLow:
-                ActionJump();
+                ActionJumpLow();
                 break;
             case CardType.JumpHigh:
-                ActionJump();
+                ActionJumpHigh();
                 break;
             case CardType.Block:
                 break;
@@ -151,8 +182,23 @@ public class PlayerController : MonoBehaviour
 
     public void ActOnCardPair(PlayingCardController card1, PlayingCardController card2)
     {
-        ActOnCard(card1);
-        ActOnCard(card2);
+        // Handle two run cards
+        if ((card1.cardType == CardType.RunLeft || card1.cardType == CardType.RunRight) &&
+                (card2.cardType == CardType.RunLeft || card2.cardType == CardType.RunRight))
+        {
+            Debug.LogError("NOT IMPLEMENTED YET - RUN + RUN");
+        }
+        else
+        {
+            int multiplier = 1;
+            // Jump level 2 doubles a move
+            if (card1.cardType == CardType.JumpHigh || card2.cardType == CardType.JumpHigh)
+            {
+                multiplier = 2;
+            }
+            ActOnCard(card1, multiplier);
+            ActOnCard(card2, multiplier);
+        }
     }
 
     private void CheckIsStillJumpingRecursive()
@@ -170,12 +216,24 @@ public class PlayerController : MonoBehaviour
 
     #region User Actions
 
-    public void ActionJump()
+    public void ActionJumpLow()
     {
-        Debug.Log("Player Jumpin");
+        Debug.Log("Player Jumpin Low");
+        ActionJump(JumpForce.LOW);
+    }
+
+    public void ActionJumpHigh()
+    {
+        Debug.Log("Player Jumpin High");
+        ActionJump(JumpForce.HIGH);
+    }
+
+    public void ActionJump(JumpForce jumpForce)
+    {
         if (mIsGrounded)
         {
-            body.AddForce(Vector3.up * kJumpPower, ForceMode.Impulse);
+            float jumpMod = (jumpForce == JumpForce.LOW) ? 0.75f : 1.0f;
+            body.AddForce(Vector3.up * kJumpPower * jumpMod, ForceMode.Impulse);
             mAnimator.SetInteger("State", (int)AnimationState.Jump);
             mIsStillJumping = true;
             Invoke("CheckIsStillJumpingRecursive", 0.5f);
@@ -194,17 +252,32 @@ public class PlayerController : MonoBehaviour
 
     private void ActionRun(Direction dir, float dist)
     {
+        Debug.Log("Moving card power: " + dist);
         mState = PlayerState.RUNNING;
         mRunDir = dir;
-        mRunStart = Time.time;
-        mRunDuration = 1.0f;
+        mRunStartPos = transform.position;
+        mTimeAtWall = 0;
+        mDistToRun = dist;
     }
 
     #endregion User Actions
 
     public void OnDrawGizmos()
     {
-        TextGizmo.Instance.DrawText(transform.position, mState.ToString());
-        TextGizmo.Instance.DrawText(transform.position + transform.up * 0.5f, string.Format("isGrounded: {0}", mIsGrounded));
+        string[] stringsToDraw = new string[]
+        {
+            mState.ToString(),
+            string.Format("isGrounded: {0}", mIsGrounded),
+            string.Format("mDistToRun: {0}", mDistToRun),
+            string.Format("distanceRun: {0}", Mathf.Abs(transform.position.x - mRunStartPos.x)),
+            string.Format("wallTime: {0}", mTimeAtWall.ToString())
+        };
+
+        Vector3 drawStart = transform.position;
+        Vector3 drawStep = transform.up * 0.2f;
+        for (int count = 0; count < stringsToDraw.Length; ++count)
+        {
+            TextGizmo.Instance.DrawText(drawStart + (count * drawStep), stringsToDraw[count]);
+        }
     }
 }

@@ -91,7 +91,6 @@ public class PlayingCardController : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        Debug.DrawRay(transform.position, transform.forward * 50, Color.blue);
         if (mSourceTarget != null)
         {
             Debug.DrawLine(transform.position, mSourceTarget.transform.position, Color.gray);
@@ -139,6 +138,11 @@ public class PlayingCardController : MonoBehaviour
         transform.position = Input.mousePosition - mDragOffset;
     }
 
+    public void OnDiscarded()
+    {
+        mSourceTarget = null;
+    }
+
     public void OnEndDrag()
     {
         if (!Clickable)
@@ -162,7 +166,10 @@ public class PlayingCardController : MonoBehaviour
                         Debug.LogWarning("Something bad happened the source target should not be null");
                     }
                     CardSlotController sourceCSC = mSourceTarget.GetComponent<CardSlotController>();
-                    mGameController.ActivateCardPair(sourceCSC.TakeCard(), csc.TakeCard());
+                    mSourceTarget = null;
+                    GameObject otherCard = csc.TakeCard();
+                    otherCard.GetComponent<PlayingCardController>().mSourceTarget = null;
+                    mGameController.ActivateCardPair(sourceCSC.TakeCard(), otherCard);
                     return;
                 }
             }

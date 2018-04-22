@@ -231,6 +231,7 @@ public class GameController : MonoBehaviour
         List<PlayingCardController> discards = mHand.DiscardRemainingHand();
         foreach (PlayingCardController pcc in discards)
         {
+            pcc.OnDiscarded();
             mDiscardPile.AddToDiscard(pcc.gameObject);
         }
         Invoke("CheckDeck", 0.5f);
