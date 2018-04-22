@@ -145,7 +145,7 @@ public class PlayingCardController : MonoBehaviour
         {
             return;
         }
-        if (mDropTarget)
+        if (mDropTarget && mDropTarget != mSourceTarget)
         {
             Debug.Log("Droptarget exists: " + mDropTarget.name);
             // See if the target is occupied
