@@ -16,6 +16,27 @@
 
 ## How To Play ##
 
+### Goal ###
+Your goal is to climb to the top and reach the finish. How do you do that you ask? By playing cards of course.
+![](https://raw.githubusercontent.com/randonia/ld41/master/screenshots/goal.gif)
+
+#### Playing A Single Card ####
+Drag a card from your hand into the play field to play one card
+![](https://raw.githubusercontent.com/randonia/ld41/master/screenshots/playcard-jump.gif)
+
+#### Combining Cards ####
+Moving forward is fine, but *combining cards* is the best way to get places! Different cards have different effects when combined, see the **Cards** section below to learn more.
+![](https://raw.githubusercontent.com/randonia/ld41/master/screenshots/playcard-combo.gif)
+
+### Cards ###
+
+| Name | Images | Description |
+|------|--------|-------------|
+| _Jump_ | ![](https://raw.githubusercontent.com/randonia/ld41/master/screenshots/preview_card_0.png) | Jump Vertically
+| _Super Jump_ | ![](https://raw.githubusercontent.com/randonia/ld41/master/screenshots/preview_card_1.png) | Jump Vertically twice as far and **doubles Movement Card values**|
+| _Run_ | ![](https://raw.githubusercontent.com/randonia/ld41/master/screenshots/preview_card_3.png) ![](https://raw.githubusercontent.com/randonia/ld41/master/screenshots/preview_card_6.png) | Run **one** block **Left** or **Right**|
+| _Fast Run_ | ![](https://raw.githubusercontent.com/randonia/ld41/master/screenshots/preview_card_4.png) ![](https://raw.githubusercontent.com/randonia/ld41/master/screenshots/preview_card_7.png) | Run **two** blocks **Left** or **Right** |
+| _Super Run_ | ![](https://raw.githubusercontent.com/randonia/ld41/master/screenshots/preview_card_5.png) ![](https://raw.githubusercontent.com/randonia/ld41/master/screenshots/preview_card_8.png) | Run **three** blocks **Left** or **Right** |
 
 ## Tools/Frameworks ##
 + Unity
