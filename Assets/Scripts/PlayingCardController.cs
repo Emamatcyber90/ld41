@@ -127,6 +127,7 @@ public class PlayingCardController : MonoBehaviour
             mSourceTarget = mDropTarget;
         }
         mDragOffset = Input.mousePosition - transform.position;
+        transform.SetAsLastSibling();
     }
 
     public void OnDrag()

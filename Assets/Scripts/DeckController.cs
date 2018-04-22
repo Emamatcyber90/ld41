@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class DeckController : MonoBehaviour
 {
+    public GameObject CardSortingLayer;
+
     public Vector3 Center
     {
         get
@@ -21,6 +23,7 @@ public class DeckController : MonoBehaviour
     private void Start()
     {
         mDeck = new Stack<GameObject>();
+        CardSortingLayer = GameObject.Find("CardContainer");
     }
 
     // Update is called once per frame
@@ -31,7 +34,7 @@ public class DeckController : MonoBehaviour
     public void AddCardToDeck(GameObject card, bool tween = false)
     {
         Debug.Log("Adding card " + card.name + " to deck");
-        card.transform.SetParent(transform.parent);
+        card.transform.SetParent(CardSortingLayer.transform);
         Vector3 targetPos = Center + Vector3.forward + Vector3.down * 5.0f * mDeck.Count;
         if (tween)
         {
@@ -56,6 +59,16 @@ public class DeckController : MonoBehaviour
         foreach (GameObject go in shufflePile)
         {
             AddCardToDeck(go, true);
+        }
+        SortDeckZIndex();
+    }
+
+    public void SortDeckZIndex()
+    {
+        // In order, set each of the cards to the right sorting order
+        foreach (GameObject go in mDeck)
+        {
+            go.transform.SetAsFirstSibling();
         }
     }
 

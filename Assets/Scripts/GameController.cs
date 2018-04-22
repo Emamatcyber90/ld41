@@ -289,6 +289,7 @@ public class GameController : MonoBehaviour
         {
             mDeck.AddCardToDeck(go, true);
         }
+        mDeck.SortDeckZIndex();
     }
 
     public void ActivateCardPair(GameObject firstCard, GameObject secondCard)
