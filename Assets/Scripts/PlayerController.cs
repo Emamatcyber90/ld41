@@ -186,7 +186,17 @@ public class PlayerController : MonoBehaviour
         if ((card1.cardType == CardType.RunLeft || card1.cardType == CardType.RunRight) &&
                 (card2.cardType == CardType.RunLeft || card2.cardType == CardType.RunRight))
         {
-            Debug.LogError("NOT IMPLEMENTED YET - RUN + RUN");
+            // Sum up the powers and make them the end result
+            float card1RelPower = ((card1.cardType == CardType.RunLeft) ? -1 : 1) * card1.cardPower;
+            float card2RelPower = ((card2.cardType == CardType.RunLeft) ? -1 : 1) * card2.cardPower;
+            float relativeSumPower = card1RelPower + card2RelPower;
+            Direction sumDirection = (relativeSumPower < 0) ? Direction.LEFT : Direction.RIGHT;
+            if (relativeSumPower == 0)
+            {
+                // Do nothing for zero sum
+                return;
+            }
+            ActionRun(sumDirection, Mathf.Abs(relativeSumPower));
         }
         else
         {
