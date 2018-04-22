@@ -6,6 +6,7 @@ TagManager:
   tags:
   - PlayZone
   - Card Slot
+  - ScrapZone
   layers:
   - Default
   - TransparentFX

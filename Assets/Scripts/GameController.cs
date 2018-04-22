@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public enum GameState
@@ -235,6 +234,13 @@ public class GameController : MonoBehaviour
             mDiscardPile.AddToDiscard(pcc.gameObject);
         }
         Invoke("CheckDeck", 0.5f);
+    }
+
+    public void ScrapCard(GameObject cardToScrap)
+    {
+        Debug.Log("Scrapping card! " + cardToScrap.name);
+        Destroy(cardToScrap);
+        DiscardHand();
     }
 
     public void ConsumeCard(PlayingCardController card, bool isFirst = true)

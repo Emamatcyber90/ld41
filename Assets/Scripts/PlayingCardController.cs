@@ -229,6 +229,11 @@ public class PlayingCardController : MonoBehaviour
                 mSourceTarget = null;
                 mDropTarget = null;
                 break;
+            case "ScrapZone":
+                mGameController.ScrapCard(gameObject);
+                mSourceTarget = null;
+                mDropTarget = null;
+                break;
             default:
                 ReturnToSource();
                 break;
