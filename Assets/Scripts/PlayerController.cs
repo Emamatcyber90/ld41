@@ -27,7 +27,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody body;
     public float kJumpPower = 30f;
     public float kRunSpeed = 1.0f;
-
+    public float kPlayerCastSizeX = 0.25f;
     private Animator mAnimator;
     private float mRunStart;
     private float mRunDuration;
@@ -53,9 +53,9 @@ public class PlayerController : MonoBehaviour
     {
         Vector3 dirVec = -transform.up;
         const float kGroundCheckDist = 1.0f;
-        Vector3 castPointLeft = transform.position + Vector3.left * 0.5f;
+        Vector3 castPointLeft = transform.position + Vector3.left * kPlayerCastSizeX;
         Vector3 castPointCenter = transform.position;
-        Vector3 castPointRight = transform.position + Vector3.right * 0.5f;
+        Vector3 castPointRight = transform.position + Vector3.right * kPlayerCastSizeX;
         Debug.DrawRay(castPointLeft, dirVec * kGroundCheckDist, Color.red);
         Debug.DrawRay(castPointCenter, dirVec * kGroundCheckDist, Color.red);
         Debug.DrawRay(castPointRight, dirVec * kGroundCheckDist, Color.red);
