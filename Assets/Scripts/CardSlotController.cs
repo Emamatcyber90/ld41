@@ -17,6 +17,22 @@ public class CardSlotController : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
+        if (mCurrentCard != null)
+        {
+            Debug.DrawLine(transform.position, mCurrentCard.transform.position, Color.yellow);
+        }
+    }
+
+    // Put the card back. This overrides the testing in the PlaceCard!
+    public void ReturnCard(GameObject card)
+    {
+        if (mCurrentCard != null && mCurrentCard != card)
+        {
+            Debug.LogWarning(string.Format("Attempting to return a card [{0}] that is not the current card [{1}]!", card.name, mCurrentCard.name));
+            return;
+        }
+        mCurrentCard = card;
+        iTween.MoveTo(card, iTween.Hash("position", transform.position, "time", Random.Range(0.1f, 0.35f)));
     }
 
     public void PlaceCard(GameObject card)

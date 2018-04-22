@@ -92,17 +92,25 @@ public class PlayingCardController : MonoBehaviour
     private void Update()
     {
         Debug.DrawRay(transform.position, transform.forward * 50, Color.blue);
+        if (mSourceTarget != null)
+        {
+            Debug.DrawLine(transform.position, mSourceTarget.transform.position, Color.gray);
+        }
+        if (mDropTarget != null)
+        {
+            Debug.DrawLine(transform.position, mDropTarget.transform.position, Color.green);
+        }
     }
 
     public void OnTriggerEnter(Collider other)
     {
-        Debug.Log(string.Format("{0} >>> Entering >>> {1}", gameObject.name, other.name));
+        //Debug.Log(string.Format("{0} >>> Entering >>> {1}", gameObject.name, other.name));
         mDropTarget = other.transform;
     }
 
     public void OnTriggerExit(Collider other)
     {
-        Debug.Log(string.Format("{0} <<< Exiting <<< {1}", gameObject.name, other.name));
+        //Debug.Log(string.Format("{0} <<< Exiting <<< {1}", gameObject.name, other.name));
         if (mDropTarget == other.transform)
         {
             mDropTarget = null;
@@ -115,7 +123,10 @@ public class PlayingCardController : MonoBehaviour
         {
             return;
         }
-        mSourceTarget = mDropTarget;
+        if (mDropTarget != null)
+        {
+            mSourceTarget = mDropTarget;
+        }
         mDragOffset = Input.mousePosition - transform.position;
     }
 
@@ -136,42 +147,91 @@ public class PlayingCardController : MonoBehaviour
         }
         if (mDropTarget)
         {
+            Debug.Log("Droptarget exists: " + mDropTarget.name);
+            // See if the target is occupied
+            CardSlotController csc = mDropTarget.GetComponent<CardSlotController>();
+            if (csc != null)
+            {
+                // Abort if it's occupied
+                if (csc.isOccupied)
+                {
+                    Debug.Log("Droptarget is occupied! " + mDropTarget.name);
+                    // Go back to the source
+                    ReturnToSource();
+                    return;
+                }
+            }
             GoToDropTarget();
+        }
+        else
+        {
+            ReturnToSource();
+        }
+    }
+
+    private void ReturnToSource()
+    {
+        // Go back to the source
+        if (mSourceTarget != null)
+        {
+            CardSlotController cscOrig = mSourceTarget.GetComponent<CardSlotController>();
+            cscOrig.ReturnCard(gameObject);
+            mDropTarget = mSourceTarget;
+        }
+        else
+        {
+            Debug.LogWarning("Source target for " + name + " is undefined but you tried to return!");
         }
     }
 
     private void GoToDropTarget()
     {
-        // First clear the old CSC if it is one
+        // Do not drop if we don't have anything to drop
+        if (mDropTarget == null)
+        {
+            Debug.Log("Returning card to origin - droptarget is null");
+            ReturnToSource();
+            return;
+        }
+        if (mDropTarget == mSourceTarget)
+        {
+            Debug.Log("Target is source, returning");
+            ReturnToSource();
+            return;
+        }
+        // Clear the old CSC if it is one
         if (mSourceTarget != null)
         {
             CardSlotController oldCSC = mSourceTarget.GetComponent<CardSlotController>();
             if (oldCSC)
             {
+                Debug.Log("Clearing old CSC:" + mSourceTarget.name);
                 oldCSC.TakeCard();
             }
         }
         switch (mDropTarget.tag)
         {
-            case "Card Slot":
-                CardSlotController newCSC = mDropTarget.GetComponent<CardSlotController>();
-                if (newCSC != null)
-                {
-                    newCSC.PlaceCard(gameObject);
-                }
-                break;
             case "PlayZone":
                 Debug.Log("Playing card: " + gameObject.name);
                 mGameController.ActivateCard(this);
+                mSourceTarget = null;
+                mDropTarget = null;
+                break;
+            default:
+                ReturnToSource();
                 break;
         }
-
-        transform.position = mDropTarget.transform.position + kDropOffset;
+        //transform.position = mDropTarget.transform.position + kDropOffset;
     }
 
     private void OnDrawGizmos()
     {
         TextGizmo.Instance.DrawText(transform.position, string.Format("{0},{1}", cardType, cardPower));
         TextGizmo.Instance.DrawText(transform.position + Vector3.down * 10f, string.Format("touchable: {0}", Clickable));
+        if (mSourceTarget)
+        {
+            Debug.DrawLine(transform.position, mSourceTarget.transform.position, Color.cyan);
+            TextGizmo.Instance.DrawText(transform.position + Vector3.down * 15f, string.Format("sourceTarget: {0}", mSourceTarget.name));
+        }
     }
 }
