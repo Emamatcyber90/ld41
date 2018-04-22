@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum GameState
 {
@@ -14,6 +15,8 @@ public class GameController : MonoBehaviour
 {
     public GameState mState = GameState.Playing;
 
+    public Sprite mMuteSprite;
+    public Sprite mPlayingSprite;
     private DeckController mDeck;
     private HandController mHand;
     private DiscardPileController mDiscardPile;
@@ -157,6 +160,21 @@ public class GameController : MonoBehaviour
         Debug.Log("New card created: " + card.cardType + ", " + card.cardPower);
         result.name = string.Format("card_{0}_{1}", card.cardType, card.cardPower);
         return result;
+    }
+
+    public void OnMuteToggle()
+    {
+        AudioSource bgm = GetComponent<AudioSource>();
+        if (bgm.isPlaying)
+        {
+            bgm.Pause();
+        }
+        else
+        {
+            bgm.UnPause();
+        }
+        GameObject muteSprite = GameObject.Find("MuteButton");
+        muteSprite.GetComponent<Image>().sprite = (bgm.isPlaying) ? mPlayingSprite : mMuteSprite;
     }
 
     public void AddCardToHand()
