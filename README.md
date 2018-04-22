@@ -28,6 +28,10 @@ Drag a card from your hand into the play field to play one card
 Moving forward is fine, but *combining cards* is the best way to get places! Different cards have different effects when combined, see the **Cards** section below to learn more.
 ![](https://raw.githubusercontent.com/randonia/ld41/master/screenshots/playcard-combo.gif)
 
+#### Scrapping Cards ####
+As an absolute last ditch effort, you can scrap a card by dragging it into the scrap zone to shuffle a new hand. Be careful though, scrapping **permanently removes** the card from your deck!
+![](https://raw.githubusercontent.com/randonia/ld41/master/screenshots/screen_scrap.png)
+
 ### Cards ###
 
 | Name | Images | Description |
