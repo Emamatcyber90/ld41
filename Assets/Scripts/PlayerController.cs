@@ -15,12 +15,20 @@ public enum PlayerState
     IDLE
 }
 
+public enum AnimationState
+{
+    Idle = 0,
+    Jump = 1,
+    Running = 2
+}
+
 public class PlayerController : MonoBehaviour
 {
     private Rigidbody body;
     public float kJumpPower = 30f;
     public float kRunSpeed = 1.0f;
 
+    private Animator mAnimator;
     private float mRunStart;
     private float mRunDuration;
     private Direction mRunDir;
@@ -28,6 +36,7 @@ public class PlayerController : MonoBehaviour
 
     public const float kControlCheckDist = 0.5f;
     private bool mIsGrounded = false;
+    private bool mIsStillJumping = false;
     private LayerMask mGroundedIgnoreMask;
 
     // Use this for initialization
@@ -36,6 +45,7 @@ public class PlayerController : MonoBehaviour
         Debug.Log("Hello player here");
         body = GetComponent<Rigidbody>();
         mGroundedIgnoreMask = ~LayerMask.GetMask("player");
+        mAnimator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -53,6 +63,21 @@ public class PlayerController : MonoBehaviour
         bool centerGround = Physics.Raycast(castPointCenter, dirVec, kGroundCheckDist, mGroundedIgnoreMask);
         bool rightGround = Physics.Raycast(castPointRight, dirVec, kGroundCheckDist, mGroundedIgnoreMask);
         mIsGrounded = leftGround || centerGround || rightGround;
+        SetAnimationState();
+    }
+
+    private void SetAnimationState()
+    {
+        if (!mIsStillJumping)
+            switch (mState)
+            {
+                case PlayerState.IDLE:
+                    mAnimator.SetInteger("State", (int)AnimationState.Idle);
+                    break;
+                case PlayerState.RUNNING:
+                    mAnimator.SetInteger("State", (int)AnimationState.Running);
+                    break;
+            }
     }
 
     private void DoRun()
@@ -124,6 +149,19 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void CheckIsStillJumpingRecursive()
+    {
+        if (mIsGrounded)
+        {
+            mIsStillJumping = false;
+        }
+        else
+        {
+            // CLAMJAM
+            Invoke("CheckIsStillJumpingRecursive", 0.125f);
+        }
+    }
+
     #region User Actions
 
     public void ActionJump()
@@ -132,6 +170,9 @@ public class PlayerController : MonoBehaviour
         if (mIsGrounded)
         {
             body.AddForce(Vector3.up * kJumpPower, ForceMode.Impulse);
+            mAnimator.SetInteger("State", (int)AnimationState.Jump);
+            mIsStillJumping = true;
+            Invoke("CheckIsStillJumpingRecursive", 0.5f);
         }
     }
 
