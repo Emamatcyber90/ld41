@@ -38,7 +38,7 @@ public class CheckpointController : MonoBehaviour
 
     public void OpenTweetLink()
     {
-        string tweetStr = string.Format("https://twitter.com/intent/tweet?text=I%20can't%20believe%20I%20beat%20%40zambini845%20's%20ridiculous%20game%20in%20only%20{0}&hashtags=LDJAM%2CLDJAM41", PlaytimeStr);
+        string tweetStr = string.Format("https://twitter.com/intent/tweet?text=I%20can't%20believe%20I%20beat%20%40zambini845%20's%20ridiculous%20game%20in%20only%20{0}!%20https%3A%2F%2Fldjam.com%2Fevents%2Fludum-dare%2F41%2Fhypata-kortti&hashtags=LDJAM%2CLDJAM41", PlaytimeStr);
         Application.OpenURL(tweetStr);
     }
 
