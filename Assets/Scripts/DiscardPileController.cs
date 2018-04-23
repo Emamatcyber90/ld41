@@ -34,6 +34,15 @@ public class DiscardPileController : MonoBehaviour
         Vector3 targetPosition = Center + Vector3.down * 2.0f * mDiscardPile.Count;
         card.GetComponent<PlayingCardController>().Clickable = false;
         iTween.MoveTo(card, iTween.Hash("position", targetPosition, "time", 0.25f));
+        SortZIndex();
+    }
+
+    public void SortZIndex()
+    {
+        foreach (GameObject go in mDiscardPile)
+        {
+            go.transform.SetAsFirstSibling();
+        }
     }
 
     public GameObject RemoveFromDiscard()
